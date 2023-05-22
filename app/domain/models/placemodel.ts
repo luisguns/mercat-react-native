@@ -17,6 +17,7 @@ export class PlaceModel {
 
     toObject() {
         return {
+            id: this.id,
             nome: this.nome,
             endereco: this.endereco,
             bairro: this.bairro,

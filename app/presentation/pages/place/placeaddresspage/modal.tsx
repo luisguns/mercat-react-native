@@ -3,26 +3,50 @@ import { Button, Text, TouchableOpacity, View, LogBox } from "react-native";
 import syles from "./style";
 import style from "./style";
 import Colors from "../../../values/colors";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute, useNavigationState } from "@react-navigation/native";
 import { PlaceModel } from "../../../../domain/models/placemodel";
 import { PlaceDI } from "../../../../di/PlaceDI";
 import { useEffect, useState } from "react";
 import { PlaceUsecase } from "../../../../domain/usecases/PlaceUsecase";
 import { StackProps } from "../../pageconfig/screenprops";
-import { Resource } from "../../../../data/helper/Resource";
-
+import PlaceController from "../../../controller/PlaceControler/PlaceControler";
+import { LoadingUiState, SuccessUiState, UiState } from "../../../../helper/UiState";
+import SectionModel from "../../../../domain/models/SectionModel";
+import { getCurrentRoute } from "../../../../helper/navigationhelp";
 
 export default function ModalScreen() {
-  const [placeUsecase, setPlaceUsecase] = useState<PlaceUsecase>();
+  let placeController: PlaceController
   const navigation = useNavigation<StackProps>();
 
   const route = useRoute();
 
   useEffect(() => {
-    if (!placeUsecase) {
-      setPlaceUsecase(PlaceDI.getPlaceUsecase());
+    if (PlaceController) {
+      placeController = new PlaceController()
     }
+    setObserves()
   }, []);
+
+  function setObserves() {
+    placeController?.placeRegisterObservable.observe(placeRegisterListen)
+  }
+
+  function placeRegisterListen(value : UiState<SectionModel>): undefined {
+    if (value instanceof SuccessUiState) {
+      if (getCurrentRoute(navigation.getState()) === "ProgressModal"){
+        navigation.goBack()
+      }
+      
+    } else if (value instanceof SuccessUiState){
+      if (getCurrentRoute(navigation.getState()) === "ProgressModal"){
+        navigation.goBack()
+      }
+      alert(value.error?.mensage ? value.error?.mensage  : "UNKNOW ERROR")
+    } else if (value instanceof LoadingUiState){
+        navigation.navigate("ProgressModal", {show: true})
+    }
+  }
+
   return (
     <View style={syles.modal}>
       <View style={syles.modalBody}>
@@ -66,27 +90,13 @@ export default function ModalScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={async () => {
-                let placeModel = new PlaceModel(
+                placeController?.registerNewAddressAnSection(new PlaceModel(
                   "Teste",
                   "Teste",
                   "Teste",
                   "Teste",
                   "Teste"
-                );
-                navigation.navigate("ProgressModal", { show: true });
-                await placeUsecase
-                  ?.saveAddress(placeModel)
-                  .then((value) => {
-                    navigation.goBack();
-                    if (value?.data) {
-                      placeModel.id = value?.data;
-                      console.log(placeModel)
-                      navigation.navigate("BottomNavigation",placeModel)
-                    }
-                  })
-                  .catch(() => {
-                    navigation.goBack();
-                  });
+                ))
               }}
             >
               <Text
