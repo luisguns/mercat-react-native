@@ -90,7 +90,7 @@ export default StyleSheet.create({
     width: "100%",
     height: "50%",
     alignContent: "space-between",
-    paddingHorizontal: 24,
+    paddingHorizontal: 18,
     paddingVertical: 16,
     borderRadius: 20,
     backgroundColor: "white",
@@ -105,13 +105,14 @@ export default StyleSheet.create({
   },
   modalFooter: {},
   modalContent: {
-    marginTop: -100,
+    marginTop: "-40%",
     flex: 1,
     flexDirection: "column",
   },
   textInline: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+    alignContent: 'flex-start'
   },
   headerModal: {
     flex: 1,
@@ -119,10 +120,18 @@ export default StyleSheet.create({
     fontWeight: "700",
   },
   textLabelModal: {
-    color: Colors.grayScale500,
+    color: Colors.grayScale800,
+    justifyContent: "flex-end",
+    alignContent: "flex-start",
+    textAlign: 'right',
+    fontSize: 16,
+    marginEnd: 10,
+    flex: 1
   },
   textvalueModal: {
     color: Colors.grayScale900,
     fontSize: 16,
+    fontWeight: "700",
+    flex: 3,
   },
 });

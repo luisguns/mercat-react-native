@@ -17,8 +17,8 @@ import { getCurrentRoute } from "../../../../helper/navigationhelp";
 export default function ModalScreen() {
   let placeController: PlaceController
   const navigation = useNavigation<StackProps>();
-
   const route = useRoute();
+  const placeModel = (route.params as {placeModel: PlaceModel}).placeModel;
 
   useEffect(() => {
     if (PlaceController) {
@@ -35,6 +35,7 @@ export default function ModalScreen() {
     if (value instanceof SuccessUiState) {
       if (getCurrentRoute(navigation.getState()) === "ProgressModal"){
         navigation.goBack()
+        navigation.navigate("BottomNavigation",value.data)
       }
       
     } else if (value instanceof SuccessUiState){
@@ -55,11 +56,11 @@ export default function ModalScreen() {
         <View style={style.modalContent}>
           <View style={style.textInline}>
             <Text style={style.textLabelModal}>Nome: </Text>
-            <Text style={style.textvalueModal}>Mulfato</Text>
+            <Text style={style.textvalueModal}>{placeModel.nome}</Text>
           </View>
           <View style={style.textInline}>
             <Text style={style.textLabelModal}>Endereço: </Text>
-            <Text style={style.textvalueModal}>Rua tal endereco tal</Text>
+            <Text style={style.textvalueModal}>{placeModel.getCompleteAddres()}</Text>
           </View>
         </View>
         <View style={style.modalFooter}>
@@ -90,13 +91,7 @@ export default function ModalScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={async () => {
-                placeController?.registerNewAddressAnSection(new PlaceModel(
-                  "Teste",
-                  "Teste",
-                  "Teste",
-                  "Teste",
-                  "Teste"
-                ))
+                placeController?.registerNewAddressAnSection(placeModel)
               }}
             >
               <Text

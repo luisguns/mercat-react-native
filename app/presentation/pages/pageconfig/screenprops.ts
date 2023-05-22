@@ -3,16 +3,17 @@ import { useRoute, useNavigation } from '@react-navigation/native'
 import { Modal } from 'react-native'
 import { Resource } from '../../../data/helper/Resource'
 import { PlaceModel } from '../../../domain/models/placemodel'
+import SectionModel from '../../../domain/models/SectionModel'
 
 type ScreenStackProps = {
     PlaceAddress: {
         placeName: string
     }
-    PlaceAddresModal: undefined,
+    PlaceAddresModal: {placeModel: PlaceModel},
     ProgressModal: {
         show: boolean
     },
-    BottomNavigation: PlaceModel
+    BottomNavigation: SectionModel
 }
 
 export type StackProps = NativeStackNavigationProp<ScreenStackProps>;

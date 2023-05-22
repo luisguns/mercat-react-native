@@ -16,9 +16,24 @@ import { PlaceModel } from "../../../../domain/models/placemodel";
 
 export default function PlaceAddressPage() {
   const route = useRoute();
-  const [addressPlace, setAddressPlace] = useState<string>();
+  const [address, setAddress] = useState<string>();
+  const [addressBairro, setAddressBairo] = useState<string>();
+  const [addressCidade, setAddressCidade] = useState<string>();
+  const [addresEstado, setAddresEstado] = useState<string>();
   const placename = (route.params as { placeName: String }).placeName;
   const navigations = useNavigation<StackProps>();
+
+
+  function createAddresPlaceModel(): PlaceModel | undefined {
+    if ( !address || !addressBairro || !addressCidade ||!addresEstado ){
+      alert("Preencha todos os campos")
+      return
+    } else {
+      return new PlaceModel(placename.toString(),address,addressBairro,addressCidade,addresEstado)
+    }
+  }
+
+
   return (
     <View>
       <StatusBar barStyle="light-content" backgroundColor={"#ffffff"} />
@@ -32,12 +47,18 @@ export default function PlaceAddressPage() {
             style={styles.individualInputText}
             selectionColor={Colors.primaryDark}
             placeholder="Endereço do local"
+            onChangeText={(text) => {
+              setAddress(text)
+            }}
           />
 
           <TextInput
             style={styles.individualInputText}
             selectionColor={Colors.primaryDark}
             placeholder="Bairro"
+            onChangeText={(text) => {
+              setAddressBairo(text)
+            }}
           />
 
           <View style={styles.inlineFormsImputContainer}>
@@ -45,12 +66,18 @@ export default function PlaceAddressPage() {
               style={styles.inlineFormsImputItem}
               selectionColor={Colors.primaryDark}
               placeholder="Cidade"
+              onChangeText={(text) => {
+                setAddressCidade(text)
+              }}
             />
 
             <TextInput
               style={styles.inlineFormsImputItem}
               selectionColor={Colors.primaryDark}
               placeholder="Estado"
+              onChangeText={(text) => {
+                setAddresEstado(text)
+              }}
             />
           </View>
         </View>
@@ -59,7 +86,10 @@ export default function PlaceAddressPage() {
             style={styles.buttonStyle}
             onPress={() => {
               Keyboard.dismiss();
-              navigations.navigate("PlaceAddresModal");
+              let place = createAddresPlaceModel()
+              if(place) {
+                navigations.navigate("PlaceAddresModal", {placeModel: place});
+              }
             }}
           >
             <Text style={styles.textButtonStyle}> Finalizar </Text>

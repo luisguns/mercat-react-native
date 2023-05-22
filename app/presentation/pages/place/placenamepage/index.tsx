@@ -26,10 +26,18 @@ export default function PlaceNamePage() {
             setNamePlace(text)
           }}
         />
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => { navigations.navigate("PlaceAddress", {placeName: myNamePlace})}}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={() => { navigateToAdrresPlace();}}>
           <Text style={styles.textButtonStyle}> Proximo </Text>
         </TouchableOpacity>
       </View>
     </View>
   );
+
+  function navigateToAdrresPlace() {
+    if (myNamePlace) {
+      navigations.navigate("PlaceAddress", { placeName: myNamePlace });
+    } else {
+      alert("Preencha o campo de nome")
+    }
+  }
 }

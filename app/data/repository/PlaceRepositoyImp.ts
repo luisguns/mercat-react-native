@@ -12,6 +12,7 @@ import {
 import CardModel from "../../domain/models/CardModel";
 import SectionModel from "../../domain/models/SectionModel";
 import { FirebaseError } from "@firebase/util";
+import PlaceNamePage from "../../presentation/pages/place/placenamepage";
 
 export class PlaceRepositoryImp implements PlaceRepository {
   async savePlace(placeModel: PlaceModel): Promise<Resource<SectionModel>> {
@@ -36,14 +37,14 @@ export class PlaceRepositoryImp implements PlaceRepository {
       cardModel.id = cardRef.id;
 
       const sectionRef = doc(sectionCollection);
-      const sectionModel = new SectionModel(placeRef.id, cardRef.id);
+      const sectionModel = new SectionModel(placeRef.id, cardRef.id, placeModel.nome, placeModel.getCompleteAddres());
       sectionModel.id = sectionRef.id;
 
       batch.set(placeRef, placeModel.toObject());
       batch.set(cardRef, cardModel.toObject());
       batch.set(sectionRef, sectionModel.toObject());
 
-      await this.deleteAllSection().catch((e) => {
+      await this.deleteAllSection(true).catch((e) => {
         return new ErrorResource<SectionModel>({
           code: 3,
           mensage: "Erro ao criar nova seção seção",
@@ -83,13 +84,15 @@ export class PlaceRepositoryImp implements PlaceRepository {
     return resoucer;
   }
 
-  async deleteAllSection() {
+  async deleteAllSection(deleteCard: boolean) {
     const query = await getDocs(collection(firestore, "section"));
     query.forEach((element) => {
       const section = (element.data() as SectionModel)
       const deleteBatch = writeBatch(firestore)
       deleteBatch.delete(element.ref)
-      deleteBatch.delete(doc(firestore, 'card', section.card))
+      if(deleteCard){
+        deleteBatch.delete(doc(firestore, 'card', section.card))
+      }
       deleteBatch.commit()
     });
   }

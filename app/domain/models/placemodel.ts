@@ -25,4 +25,8 @@ export class PlaceModel {
             estado: this.estado,
         }
     }
+
+    getCompleteAddres() : string {
+        return `${this.endereco} bairro ${this.bairro}, ${this.cidade} - ${this.estado}`
+    }
 }
