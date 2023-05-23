@@ -6,12 +6,27 @@ import PlaceAddressPage from "../place/placeaddresspage";
 import ModalScreen from "../place/placeaddresspage/modal";
 import ProgressModal from "../../components/ModalComponent/ProgressModal";
 import BottomNavigationPage from "../bottom_navigation/bottom_navigation_page";
+import LoginPage from "../autheintication/LoginPage/LoginPage";
+import RegisterPage from "../autheintication/RegisterPage/RegisterPage";
 
 export default function StackComponent() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Group>
+        <Stack.Screen 
+          name="LoginScreen"
+          component={LoginPage}
+          options={screenLightWithoutHeader()}
+        />
+        <Stack.Screen 
+          name="RegisterScreen"
+          component={RegisterPage}
+          options={screenLightWithoutHeader()}
+        />
+      </Stack.Group>
+
       <Stack.Group>
         <Stack.Screen
           name="PlaceHome"
@@ -31,6 +46,7 @@ export default function StackComponent() {
           options={screenLightWithoutHeader()}
         />
       </Stack.Group>
+    
       <Stack.Group
         screenOptions={{
           presentation: "transparentModal",

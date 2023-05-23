@@ -4,7 +4,7 @@ import styles from "./style";
 export default function PrimaryButton(props: {
   text: string;
   seOnClick?: () => undefined;
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 }) {
   return (
     <TouchableOpacity

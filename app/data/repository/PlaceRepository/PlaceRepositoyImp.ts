@@ -1,7 +1,7 @@
-import { PlaceModel } from "../../domain/models/placemodel";
-import { PlaceRepository } from "../../domain/repository/PlaceRepository";
-import { ErrorResource, Resource, SuccessResource } from "../helper/Resource";
-import { firestore } from "../../config/firebaseconfig";
+import { PlaceModel } from "../../../domain/models/placemodel";
+import { PlaceRepository } from "../../../domain/repository/PlaceRepository";
+import { ErrorResource, Resource, SuccessResource } from "../../helper/Resource";
+import { firestore } from "../../../config/firebaseconfig";
 import {
   doc,
   writeBatch,
@@ -9,10 +9,10 @@ import {
   deleteDoc,
   getDocs,
 } from "firebase/firestore";
-import CardModel from "../../domain/models/CardModel";
-import SectionModel from "../../domain/models/SectionModel";
+import CardModel from "../../../domain/models/CardModel";
+import SectionModel from "../../../domain/models/SectionModel";
 import { FirebaseError } from "@firebase/util";
-import PlaceNamePage from "../../presentation/pages/place/placenamepage";
+import PlaceNamePage from "../../../presentation/pages/place/placenamepage";
 
 export class PlaceRepositoryImp implements PlaceRepository {
   async savePlace(placeModel: PlaceModel): Promise<Resource<SectionModel>> {
@@ -21,28 +21,25 @@ export class PlaceRepositoryImp implements PlaceRepository {
       mensage: "UNKNOW ERROR",
     });
     try {
-      const batch = writeBatch(firestore);
+      const batch = firestore().batch()
 
       //Collections
-      const placeCollection = collection(firestore, "place");
-      const cardCollection = collection(firestore, "card");
-      const sectionCollection = collection(firestore, "section");
+      const placeCollection = firestore().collection("place").doc();
+      const cardCollection = firestore().collection("card").doc();
+      const sectionCollection = firestore().collection("section").doc();
 
       //Refs
-      const placeRef = doc(placeCollection);
-      placeModel.id = placeRef.id;
+      placeModel.id = placeCollection.id;
 
-      const cardRef = doc(cardCollection);
       const cardModel = new CardModel();
-      cardModel.id = cardRef.id;
+      cardModel.id = cardCollection.id;
 
-      const sectionRef = doc(sectionCollection);
-      const sectionModel = new SectionModel(placeRef.id, cardRef.id, placeModel.nome, placeModel.getCompleteAddres());
-      sectionModel.id = sectionRef.id;
+      const sectionModel = new SectionModel(placeCollection.id, cardCollection.id, placeModel.nome, placeModel.getCompleteAddres());
+      sectionModel.id = sectionCollection.id;
 
-      batch.set(placeRef, placeModel.toObject());
-      batch.set(cardRef, cardModel.toObject());
-      batch.set(sectionRef, sectionModel.toObject());
+      batch.set(placeCollection, placeModel.toObject());
+      batch.set(cardCollection, cardModel.toObject());
+      batch.set(sectionCollection, sectionModel.toObject());
 
       await this.deleteAllSection(true).catch((e) => {
         return new ErrorResource<SectionModel>({
@@ -85,13 +82,13 @@ export class PlaceRepositoryImp implements PlaceRepository {
   }
 
   async deleteAllSection(deleteCard: boolean) {
-    const query = await getDocs(collection(firestore, "section"));
+    const query = await firestore().collection("section").get()
     query.forEach((element) => {
       const section = (element.data() as SectionModel)
-      const deleteBatch = writeBatch(firestore)
+      const deleteBatch = firestore().batch()
       deleteBatch.delete(element.ref)
       if(deleteCard){
-        deleteBatch.delete(doc(firestore, 'card', section.card))
+        deleteBatch.delete(firestore().collection('card').doc(section.card),)
       }
       deleteBatch.commit()
     });
