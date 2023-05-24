@@ -10,5 +10,7 @@ export default interface AuthenticatorRepository {
         name: string
       ): Promise<Resource<UserLoginResponse>>
 
-    loginWithEmailAndPassword(email: string, password: string): Promise<Resource<UserModel>>
+    loginWithEmailAndPassword(email: string, password: string): Promise<Resource<UserLoginResponse>>
+
+    singInWithGoogle(): Promise<Resource<UserLoginResponse>>
 }

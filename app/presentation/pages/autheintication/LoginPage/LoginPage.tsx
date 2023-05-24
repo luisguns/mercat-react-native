@@ -8,16 +8,35 @@ import { AuthenticatorRepositoryImp } from "../../../../data/repository/Authenti
 import { useState, useEffect } from "react"
 import { useNavigation } from "@react-navigation/native";
 import { StackProps } from "../../pageconfig/screenprops";
+import { AuthenticationController } from "../../../controller/AuthenticationController/AuthenticationController";
 
-
+const repos = new AuthenticatorRepositoryImp()
+let authController: AuthenticationController
 export default function LoginPage() {
-  const repos = new AuthenticatorRepositoryImp()
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
 
   const navigation = useNavigation<StackProps>()
 
   useEffect(() => {
-    
+    if(!authController){
+      authController = new AuthenticationController()
+    }
   }, [])
+  function processLoginOption(index: Number) {
+    if(index === 1 && authController){
+      authController.singInWithGoogle()
+    }
+  }
+
+  function singInWithEmailAndPassword() {
+    if(authController) {
+      if(email.length > 0 && password.length > 0){
+        authController.singInWithEmail(email,password)
+      }
+    }
+  }
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topSide}>
@@ -32,6 +51,7 @@ export default function LoginPage() {
             { marginTop: 26 },
           ]}
           placeholder="Email"
+          onChangeText={(value) => setEmail(value)}
           keyboardType="email-address"
         />
         <TextInput
@@ -40,6 +60,7 @@ export default function LoginPage() {
             styles.inputTextStyle,
             { marginTop: 26 },
           ]}
+          onChangeText={(value) => setPassword(value)}
           placeholder="Senha"
           secureTextEntry={true}
         />
@@ -48,7 +69,7 @@ export default function LoginPage() {
           style={{ width: "60%", alignSelf: "center", marginTop: 47 }}
           text="Logar"
           seOnClick={() => {
-            console.log("TEXT");
+            singInWithEmailAndPassword();
           }}
         />
 
@@ -57,7 +78,7 @@ export default function LoginPage() {
         <CardListComponent
           listStyle={{ marginTop: 28 }}
           itemClickedByIndex={(index) => {
-            console.log(index);
+            processLoginOption(index)
           }}
         />
       </View>

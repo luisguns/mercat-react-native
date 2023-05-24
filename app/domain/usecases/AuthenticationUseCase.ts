@@ -20,4 +20,13 @@ export default class AuthenticationUseCase {
       name
     );
   }
+
+  async singInWithGoogle() {
+    return await this.authRepository.singInWithGoogle()
+  }
+
+  async singInWithEmailAndPassword(email: string, password: string) {
+    console.log("A")
+    return await this.authRepository.loginWithEmailAndPassword(email,password)
+  }
 }

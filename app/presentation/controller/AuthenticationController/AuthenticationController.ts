@@ -41,4 +41,30 @@ export class AuthenticationController {
                 );
             });
     }
+
+    async singInWithGoogle() {
+        await this.authUsecase.singInWithGoogle()
+        .then((value) => {
+            if (value instanceof SuccessResource) {
+                console.log("SUCEESS")
+                console.log(value.data)
+            } else if (value instanceof ErrorResource) {
+                console.log("ERRO")
+                console.log(value.error)
+            }
+        }).catch((e) => {
+            console.log(e)
+            
+        })
+    }
+
+    async singInWithEmail(email: string, password: string) {
+        await this.authUsecase.singInWithEmailAndPassword(email, password)
+        .then((value) => {
+            console.log(value)
+        })
+        .catch((e) => {
+            console.log(e)
+        })
+    }
 }

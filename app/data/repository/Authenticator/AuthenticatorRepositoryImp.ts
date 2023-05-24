@@ -1,5 +1,5 @@
 import { FirebaseError } from "firebase/app";
-import { auth } from "../../../config/firebaseconfig";
+import { GoogleSignin, auth } from "../../../config/firebaseconfig";
 import {
     FIREBASE_AUTH_ERROR_EMAIL_ALREADY_IN_USE,
     FIREBASE_AUTH_ERROR_INVALID_EMAIL,
@@ -20,17 +20,19 @@ export class AuthenticatorRepositoryImp implements AuthenticatorRepository {
         return await auth()
             .createUserWithEmailAndPassword(email, password)
             .then((myUser) => {
-                return myUser.user.updateProfile({
-                    displayName: name, 
-                }).then(() =>{
-                  return Resource.Success(
-                    UserLoginResponse.createSuccesLogin(
-                        myUser.user.email,
-                        myUser.user.displayName,
-                        myUser.user.uid
-                    )
-                );
-                });
+                return myUser.user
+                    .updateProfile({
+                        displayName: name,
+                    })
+                    .then(() => {
+                        return Resource.Success(
+                            UserLoginResponse.createSuccesLogin(
+                                myUser.user.email,
+                                myUser.user.displayName,
+                                myUser.user.uid
+                            )
+                        );
+                    });
             })
             .catch((e) => {
                 const error = e as { code: string };
@@ -73,7 +75,59 @@ export class AuthenticatorRepositoryImp implements AuthenticatorRepository {
     async loginWithEmailAndPassword(
         email: string,
         password: string
-    ): Promise<Resource<UserModel>> {
-        return new Resource<UserModel>();
+    ): Promise<Resource<UserLoginResponse>> {
+        return await auth().signInWithEmailAndPassword(email,password)
+        .then((user) => {
+            return Resource.Success(
+                UserLoginResponse.createSuccesLogin(
+                    user.user.email,
+                    user.user.displayName,
+                    user.user.uid
+                )
+            );
+        })
+        .catch( (e) => {
+            console.log(e)
+            return Resource.Error({
+                code: FIREBASE_AUTH_ERROR_UNKNOW.code,
+                mensage: FIREBASE_AUTH_ERROR_UNKNOW.menssage,
+            });
+        })
+    }
+
+    async singInWithGoogle(): Promise<Resource<UserLoginResponse>> {
+        try {
+            await GoogleSignin.hasPlayServices({
+                showPlayServicesUpdateDialog: true,
+            });
+            const { idToken } = await GoogleSignin.signIn();
+            
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            return await auth()
+                .signInWithCredential(googleCredential)
+                .then((response) => {
+                    return Resource.Success(
+                        UserLoginResponse.createSuccesLogin(
+                            response.user.email,
+                            response.user.displayName,
+                            response.user.uid
+                        )
+                    );
+                })
+                .catch((e) => {
+                    console.log(e)
+                    const error = e as { code: string };
+                    console.log(error.code);
+                    return Resource.Error({
+                        code: FIREBASE_AUTH_ERROR_UNKNOW.code,
+                        mensage: FIREBASE_AUTH_ERROR_UNKNOW.menssage,
+                    });
+                });
+        } catch (e) {
+            return Resource.Error({
+                code: FIREBASE_AUTH_ERROR_UNKNOW.code,
+                mensage: FIREBASE_AUTH_ERROR_UNKNOW.menssage,
+            });
+        }
     }
 }
