@@ -2,22 +2,18 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     mainContainer: {
-        flex: 1,
         flexDirection: "column",
         alignItems: "center",
         marginTop: '20%'
     },
     topSide: {
-        flex: 1,
         flexDirection: "column",
         alignItems: "center",
         alignSelf: "stretch"
     },
     footerCriarConta: {
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '5%'
+        marginTop: "20%"
     },
     logoImage: {
         width: 118,

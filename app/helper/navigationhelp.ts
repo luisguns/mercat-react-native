@@ -1,4 +1,5 @@
 import { NavigationProp, NavigationState, useNavigation, } from "@react-navigation/native";
+import { StackProps } from "../presentation/pages/pageconfig/screenprops";
 
 export const PROGRESS_SCREEN = "ProgressModal"
 
@@ -15,7 +16,7 @@ export const getCurrentRoute = (
     return state.routes[state.index].name;
   };
 
-  export function closeProgressModal(navigation: NavigationProp<ReactNavigation.RootParamList>) {
+  export function closeProgressModal(navigation: StackProps) {
     if (getCurrentRoute(navigation.getState()) === PROGRESS_SCREEN) {
       navigation.goBack()
   }

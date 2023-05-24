@@ -9,6 +9,9 @@ import { useState, useEffect } from "react"
 import { useNavigation } from "@react-navigation/native";
 import { StackProps } from "../../pageconfig/screenprops";
 import { AuthenticationController } from "../../../controller/AuthenticationController/AuthenticationController";
+import { ErrorUiState, LoadingUiState, SuccessUiState, UiState } from "../../../../helper/UiState";
+import { UserLoginResponse } from "../../../../data/entity/UserLoginResponse";
+import {closeProgressModal, getCurrentRoute } from '../../../../helper/navigationhelp'
 
 const repos = new AuthenticatorRepositoryImp()
 let authController: AuthenticationController
@@ -22,7 +25,31 @@ export default function LoginPage() {
     if(!authController){
       authController = new AuthenticationController()
     }
+
+    if(!authController.loginObservable.observable){
+      authController?.loginObservable.observe(loginGoogleObserver)
+    }
   }, [])
+
+  function loginGoogleObserver(state: UiState<UserLoginResponse>): undefined {
+
+    const data = state.data
+    if(state instanceof SuccessUiState) {
+      closeProgressModal(navigation)
+      // Go ahead to flow
+      alert(`Bem vindo ${data?.success?.displayname}`)
+    } else if (state instanceof ErrorUiState) {
+      if (state.error?.code === -1 ){
+        closeProgressModal(navigation)
+        alert("Ocorreu um erro, tente novamente mais tarde")
+        return
+      } 
+
+      alert(state.error?.mensage)
+    } else if ( state instanceof LoadingUiState){
+      navigation.navigate("ProgressModal")
+    }
+  }
   function processLoginOption(index: Number) {
     if(index === 1 && authController){
       authController.singInWithGoogle()

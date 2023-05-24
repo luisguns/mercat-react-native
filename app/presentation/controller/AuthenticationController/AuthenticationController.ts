@@ -3,12 +3,13 @@ import { ErrorResource, SuccessResource } from "../../../data/helper/Resource";
 import { UserModel } from "../../../domain/models/UserModel";
 import AuthenticationUseCase from "../../../domain/usecases/AuthenticationUseCase";
 import { Obeservable } from "../../../helper/Observer";
-import { UiState } from "../../../helper/UiState";
+import { LoadingUiState, UiState } from "../../../helper/UiState";
 
 export class AuthenticationController {
     authUsecase = new AuthenticationUseCase();
 
     newUseObservable = new Obeservable<UserLoginResponse>();
+    loginObservable = new Obeservable<UserLoginResponse>();
 
     async createNewUserWithEmailAndPassword(
         email: string,
@@ -43,17 +44,23 @@ export class AuthenticationController {
     }
 
     async singInWithGoogle() {
+        this.loginObservable.emit(UiState.UiStateLoading<UserLoginResponse>())
         await this.authUsecase.singInWithGoogle()
         .then((value) => {
             if (value instanceof SuccessResource) {
-                console.log("SUCEESS")
-                console.log(value.data)
+                this.loginObservable.emit(UiState.UiStateSuccess<UserLoginResponse>(value.data))
             } else if (value instanceof ErrorResource) {
-                console.log("ERRO")
-                console.log(value.error)
+                console.error(value.error)
+                this.loginObservable.emit(UiState.UiStateError<UserLoginResponse>(value.toUiError()))
             }
         }).catch((e) => {
-            console.log(e)
+            console.error(e)
+            this.loginObservable.emit(UiState.UiStateError<UserLoginResponse>(
+                {
+                    mensage: e,
+                    code: -1
+                }
+            ))
             
         })
     }
@@ -61,10 +68,21 @@ export class AuthenticationController {
     async singInWithEmail(email: string, password: string) {
         await this.authUsecase.singInWithEmailAndPassword(email, password)
         .then((value) => {
-            console.log(value)
+            if (value instanceof SuccessResource) {
+                this.loginObservable.emit(UiState.UiStateSuccess<UserLoginResponse>(value.data))
+            } else if (value instanceof ErrorResource) {
+                console.error(value.error)
+                this.loginObservable.emit(UiState.UiStateError<UserLoginResponse>(value.toUiError()))
+            }
         })
         .catch((e) => {
-            console.log(e)
+            console.error(e)
+            this.loginObservable.emit(UiState.UiStateError<UserLoginResponse>(
+                {
+                    mensage: e,
+                    code: -1
+                }
+            ))
         })
     }
 }

@@ -10,9 +10,7 @@ type ScreenStackProps = {
         placeName: string
     }
     PlaceAddresModal: {placeModel: PlaceModel},
-    ProgressModal: {
-        show: boolean
-    },
+    ProgressModal: undefined,
     BottomNavigation: SectionModel
     RegisterScreen: undefined
 }

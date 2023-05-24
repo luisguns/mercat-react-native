@@ -44,7 +44,7 @@ export default function ModalScreen() {
       }
       alert(value.error?.mensage ? value.error?.mensage  : "UNKNOW ERROR")
     } else if (value instanceof LoadingUiState){
-        navigation.navigate("ProgressModal", {show: true})
+        navigation.navigate("ProgressModal")
     }
   }
 
