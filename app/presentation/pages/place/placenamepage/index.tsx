@@ -16,7 +16,8 @@ export default function PlaceNamePage() {
   const navigations = useNavigation<StackProps>();
   return (
     <View>
-      <StatusBar barStyle="light-content" backgroundColor={"#ffffff"} />
+      <StatusBar backgroundColor={Colors.grayScale050} barStyle={"dark-content"}/>
+      <Text style={styles.titleStyle}> Cadastrar Estabelecimento </Text>
       <View style={styles.container}>
         <TextInput
           style={styles.imputText}

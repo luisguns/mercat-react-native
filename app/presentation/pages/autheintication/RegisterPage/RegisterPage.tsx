@@ -10,7 +10,10 @@ import { PROGRESS_SCREEN, closeProgressModal, getCurrentRoute } from "../../../.
 import { useNavigation } from "@react-navigation/native";
 import { StackProps } from "../../pageconfig/screenprops";
 import { auth } from "../../../../config/firebaseconfig";
+import SectionController from "../../../controller/SectionController/SectionController";
+import SectionModel from "../../../../domain/models/SectionModel";
 let authController: AuthenticationController
+let sectionConroller: SectionController
 export default function RegisterPage() {
 
     const [email, setEmail] = useState<string>("");
@@ -22,21 +25,46 @@ export default function RegisterPage() {
         if (!authController) {
             authController = new AuthenticationController();
         }
+        if (!sectionConroller) {
+            sectionConroller = new SectionController();
+        }
         if(!authController.newUseObservable.observable){
             setObserver()
 
         }
+
+        if(!sectionConroller.observableSectionGet.observable){
+            setSectionObserver()
+
+        }
     }, []);
 
+    function setSectionObserver() {
+        sectionConroller?.observableSectionGet.observe(sectionListen)
+    }
     
     function setObserver() {
         authController?.newUseObservable.observe(userRegisterListen)
     }
 
+    function sectionListen(state: UiState<SectionModel[]>): undefined {
+        const data = state.data
+    if (state instanceof SuccessUiState) {
+      if(data?.length === 1 ){
+        navigation.navigate("BottomNavigation",data[0])
+      } else if ( data && data?.length > 1) {
+        // CHOSE SECTION SCREEN
+      } else {
+        navigation.navigate("PlaceHome")
+      }
+    }
+    }
+
     function userRegisterListen(state: UiState<UserLoginResponse>): undefined {
+        const data = state.data
         if(state instanceof SuccessUiState) {
             closeProgressModal(navigation)
-            alert("Usuario criado com suceesoo")
+            sectionConroller.getSectionByUid(data?.success?.uid ? data?.success?.uid : "", false)
         }
         if( state instanceof ErrorUiState) {
             closeProgressModal(navigation)
@@ -83,6 +111,7 @@ export default function RegisterPage() {
                         marginTop: 26,
                     },
                 ]}
+                secureTextEntry={true}
             />
             <TextInput
                 onChangeText={(text) => {

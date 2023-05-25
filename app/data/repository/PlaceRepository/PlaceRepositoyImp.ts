@@ -41,7 +41,7 @@ export class PlaceRepositoryImp implements PlaceRepository {
       batch.set(cardCollection, cardModel.toObject());
       batch.set(sectionCollection, sectionModel.toObject());
 
-      await this.deleteAllSection(true).catch((e) => {
+      await this.deleteAllSection(uid, true).catch((e) => {
         return new ErrorResource<SectionModel>({
           code: 3,
           mensage: "Erro ao criar nova seção seção",
@@ -81,8 +81,8 @@ export class PlaceRepositoryImp implements PlaceRepository {
     return resoucer;
   }
 
-  async deleteAllSection(deleteCard: boolean) {
-    const query = await firestore().collection("section").get()
+  async deleteAllSection(uid: string, deleteCard: boolean) {
+    const query = await firestore().collection("section").where("userId", '==', uid).get()
     query.forEach((element) => {
       const section = (element.data() as SectionModel)
       const deleteBatch = firestore().batch()

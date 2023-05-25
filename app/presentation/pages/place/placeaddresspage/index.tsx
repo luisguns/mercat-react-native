@@ -36,7 +36,7 @@ export default function PlaceAddressPage() {
 
   return (
     <View>
-      <StatusBar barStyle="light-content" backgroundColor={"#ffffff"} />
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.grayScale050} />
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <View style={[styles.textInline, { alignSelf: "center" }]}>

@@ -8,13 +8,19 @@ import ProgressModal from "../../components/ModalComponent/ProgressModal";
 import BottomNavigationPage from "../bottom_navigation/bottom_navigation_page";
 import LoginPage from "../autheintication/LoginPage/LoginPage";
 import RegisterPage from "../autheintication/RegisterPage/RegisterPage";
+import SplashScreen from "../splash/SplashScreen";
 
 export default function StackComponent() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="LoginScreen">
+    <Stack.Navigator initialRouteName="SplashScreen">
       <Stack.Group>
+        <Stack.Screen 
+          name="SplashScreen"
+          component={SplashScreen}
+          options={screenLightWithoutHeader()}
+        />
         <Stack.Screen 
           name="LoginScreen"
           component={LoginPage}

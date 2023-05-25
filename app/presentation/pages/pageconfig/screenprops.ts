@@ -13,7 +13,8 @@ type ScreenStackProps = {
     ProgressModal: undefined,
     BottomNavigation: SectionModel
     RegisterScreen: undefined,
-    PlaceHome: undefined
+    PlaceHome: undefined,
+    LoginScreen: undefined
 }
 
 export type StackProps = NativeStackNavigationProp<ScreenStackProps>;

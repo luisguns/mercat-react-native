@@ -14,6 +14,7 @@ import { UserLoginResponse } from "../../../../data/entity/UserLoginResponse";
 import {closeProgressModal, getCurrentRoute } from '../../../../helper/navigationhelp'
 import SectionController from "../../../controller/SectionController/SectionController";
 import SectionModel from "../../../../domain/models/SectionModel";
+import { StatusBar } from "expo-status-bar";
 
 const repos = new AuthenticatorRepositoryImp()
 let authController: AuthenticationController
@@ -65,7 +66,7 @@ export default function LoginPage() {
     const data = state.data
     if (state instanceof SuccessUiState) {
       if(data?.length === 1 ){
-        navigation.navigate("BottomNavigation",data[0])
+        navigation.replace("BottomNavigation",data[0])
       } else if ( data && data?.length > 1) {
         // CHOSE SECTION SCREEN
       } else {
@@ -90,6 +91,7 @@ export default function LoginPage() {
 
   return (
     <View style={styles.mainContainer}>
+      <StatusBar backgroundColor={"#ffffff"}/>
       <View style={styles.topSide}>
         <Image
           style={styles.logoImage}

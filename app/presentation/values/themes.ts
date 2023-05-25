@@ -6,6 +6,6 @@ export function screenLightWithoutHeader() {
         headerShown: false,
         contentStyle: {
             backgroundColor: Colors.light
-        }
+        },
     };
 } 

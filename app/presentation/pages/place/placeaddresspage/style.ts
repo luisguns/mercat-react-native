@@ -46,6 +46,7 @@ export default StyleSheet.create({
 
   topContainer: {
     alignSelf: "stretch",
+    flex: 1
   },
 
   bottomContainer: {},

@@ -37,5 +37,14 @@ export default StyleSheet.create({
         fontSize: 16,
         color: Colors.light,
         fontWeight: "700"
+    },
+    titleStyle: {
+        alignContent: "center",
+        justifyContent: "center",
+        alignSelf: 'stretch',
+        textAlign: "center",
+        fontSize: 15,
+        color: Colors.secondary,
+        fontWeight: "700"
     }
 });

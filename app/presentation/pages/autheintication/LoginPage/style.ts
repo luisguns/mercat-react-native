@@ -4,7 +4,7 @@ export default StyleSheet.create({
     mainContainer: {
         flexDirection: "column",
         alignItems: "center",
-        marginTop: '20%'
+        marginTop: '20%',
     },
     topSide: {
         flexDirection: "column",
