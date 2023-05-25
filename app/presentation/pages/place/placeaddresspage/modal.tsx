@@ -65,6 +65,10 @@ export default function ModalScreen() {
             <Text style={style.textLabelModal}>Endereço: </Text>
             <Text style={style.textvalueModal}>{placeModel.getCompleteAddres()}</Text>
           </View>
+          <View style={style.textInline}>
+            <Text style={style.textLabelModal}>Favorito: </Text>
+            <Text style={style.textvalueModal}>{placeModel.favorite ? "SIM" : "NÃO"}</Text>
+          </View>
         </View>
         <View style={style.modalFooter}>
           <View

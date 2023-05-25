@@ -13,13 +13,17 @@ import { useState } from "react";
 import { StackProps } from "../../pageconfig/screenprops";
 import { Resource, SuccessResource } from "../../../../data/helper/Resource";
 import { PlaceModel } from "../../../../domain/models/placemodel";
+import CheckBox from "@react-native-community/checkbox";
+import { auth } from "../../../../config/firebaseconfig";
 
+const user = auth().currentUser
 export default function PlaceAddressPage() {
   const route = useRoute();
   const [address, setAddress] = useState<string>();
   const [addressBairro, setAddressBairo] = useState<string>();
   const [addressCidade, setAddressCidade] = useState<string>();
   const [addresEstado, setAddresEstado] = useState<string>();
+  const [toggleCheckBox, setToggleCheckBox] = useState<boolean>();
   const placename = (route.params as { placeName: String }).placeName;
   const navigations = useNavigation<StackProps>();
 
@@ -29,7 +33,7 @@ export default function PlaceAddressPage() {
       alert("Preencha todos os campos")
       return
     } else {
-      return new PlaceModel(placename.toString(),address,addressBairro,addressCidade,addresEstado)
+      return new PlaceModel(placename.toString(),address,addressBairro,addressCidade,addresEstado, toggleCheckBox)
     }
   }
 
@@ -80,6 +84,17 @@ export default function PlaceAddressPage() {
               }}
             />
           </View>
+
+          <View style={[styles.textInline, {alignItems: "center", marginTop: 8}]}>
+            <CheckBox
+            disabled={false}
+            value={toggleCheckBox}
+            tintColors={{true: Colors.primaryDark, false: Colors.primary}}
+            onValueChange={(newValue) => setToggleCheckBox(newValue)}
+            />
+            <Text>Favoritar estabelecimento</Text>
+          </View>
+          
         </View>
         <View style={styles.bottomContainer}>
           <TouchableOpacity

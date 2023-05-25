@@ -30,6 +30,7 @@ export class PlaceRepositoryImp implements PlaceRepository {
 
       //Refs
       placeModel.id = placeCollection.id;
+      placeModel.uid = uid
 
       const cardModel = new CardModel();
       cardModel.id = cardCollection.id;
