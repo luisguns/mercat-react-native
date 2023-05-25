@@ -3,5 +3,5 @@ import SectionModel from "../models/SectionModel";
 import { PlaceModel } from "../models/placemodel";
 
 export interface PlaceRepository{
-    savePlace(placeModel: PlaceModel): Promise<Resource<SectionModel>>
+    savePlace(placeModel: PlaceModel, uid: string): Promise<Resource<SectionModel>>
 }

@@ -15,7 +15,7 @@ import { FirebaseError } from "@firebase/util";
 import PlaceNamePage from "../../../presentation/pages/place/placenamepage";
 
 export class PlaceRepositoryImp implements PlaceRepository {
-  async savePlace(placeModel: PlaceModel): Promise<Resource<SectionModel>> {
+  async savePlace(placeModel: PlaceModel, uid: string): Promise<Resource<SectionModel>> {
     let resoucer: Resource<SectionModel> = new ErrorResource<SectionModel>({
       code: -1,
       mensage: "UNKNOW ERROR",
@@ -34,7 +34,7 @@ export class PlaceRepositoryImp implements PlaceRepository {
       const cardModel = new CardModel();
       cardModel.id = cardCollection.id;
 
-      const sectionModel = new SectionModel(placeCollection.id, cardCollection.id, placeModel.nome, placeModel.getCompleteAddres());
+      const sectionModel = new SectionModel(placeCollection.id, cardCollection.id, placeModel.nome, placeModel.getCompleteAddres(), uid);
       sectionModel.id = sectionCollection.id;
 
       batch.set(placeCollection, placeModel.toObject());

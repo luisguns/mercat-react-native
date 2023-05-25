@@ -9,7 +9,7 @@ export class PlaceUsecase {
         this.repository = repositoy
     }
 
-    async saveAddress(placeAddres: PlaceModel): Promise<Resource<SectionModel>> {
-        return await this.repository.savePlace(placeAddres)
+    async saveAddress(placeAddres: PlaceModel, uid: string): Promise<Resource<SectionModel>> {
+        return await this.repository.savePlace(placeAddres, uid)
     }
 }

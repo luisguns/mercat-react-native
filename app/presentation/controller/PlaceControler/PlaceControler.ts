@@ -16,9 +16,9 @@ export default class PlaceController {
 
 
 
-    async registerNewAddressAnSection(placeModel: PlaceModel)  {
+    async registerNewAddressAnSection(placeModel: PlaceModel, uid: string)  {
         this.placeRegisterObservable.emit(new LoadingUiState<SectionModel>())
-        await this.placeUseCase.saveAddress(placeModel).then ((value) => {
+        await this.placeUseCase.saveAddress(placeModel, uid).then ((value) => {
             if (value instanceof SuccessResource) {
                 this.placeRegisterObservable.emit(new SuccessUiState(value.data))
             } else if (value instanceof ErrorResource) {

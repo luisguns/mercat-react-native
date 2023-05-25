@@ -13,7 +13,9 @@ import PlaceController from "../../../controller/PlaceControler/PlaceControler";
 import { LoadingUiState, SuccessUiState, UiState } from "../../../../helper/UiState";
 import SectionModel from "../../../../domain/models/SectionModel";
 import { getCurrentRoute } from "../../../../helper/navigationhelp";
+import { auth } from "../../../../config/firebaseconfig";
 
+let uidUser: string | undefined
 export default function ModalScreen() {
   let placeController: PlaceController
   const navigation = useNavigation<StackProps>();
@@ -24,6 +26,7 @@ export default function ModalScreen() {
     if (PlaceController) {
       placeController = new PlaceController()
     }
+    uidUser = auth().currentUser?.uid
     setObserves()
   }, []);
 
@@ -91,7 +94,11 @@ export default function ModalScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={async () => {
-                placeController?.registerNewAddressAnSection(placeModel)
+                if(uidUser) {
+                  placeController?.registerNewAddressAnSection(placeModel,uidUser)
+                } else {
+                  alert("Login expirado")
+                }
               }}
             >
               <Text

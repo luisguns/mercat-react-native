@@ -12,9 +12,12 @@ import { AuthenticationController } from "../../../controller/AuthenticationCont
 import { ErrorUiState, LoadingUiState, SuccessUiState, UiState } from "../../../../helper/UiState";
 import { UserLoginResponse } from "../../../../data/entity/UserLoginResponse";
 import {closeProgressModal, getCurrentRoute } from '../../../../helper/navigationhelp'
+import SectionController from "../../../controller/SectionController/SectionController";
+import SectionModel from "../../../../domain/models/SectionModel";
 
 const repos = new AuthenticatorRepositoryImp()
 let authController: AuthenticationController
+let sectionConroller: SectionController
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
@@ -26,8 +29,16 @@ export default function LoginPage() {
       authController = new AuthenticationController()
     }
 
+    if(!sectionConroller){
+      sectionConroller = new SectionController()
+    }
+
     if(!authController.loginObservable.observable){
       authController?.loginObservable.observe(loginGoogleObserver)
+    }
+
+    if(!sectionConroller.observableSectionGet.observable){
+      sectionConroller?.observableSectionGet.observe(getSectionObserver)
     }
   }, [])
 
@@ -36,8 +47,7 @@ export default function LoginPage() {
     const data = state.data
     if(state instanceof SuccessUiState) {
       closeProgressModal(navigation)
-      // Go ahead to flow
-      alert(`Bem vindo ${data?.success?.displayname}`)
+      sectionConroller.getSectionByUid(data?.success?.uid ? data?.success?.uid : "", false)
     } else if (state instanceof ErrorUiState) {
       if (state.error?.code === -1 ){
         closeProgressModal(navigation)
@@ -50,6 +60,20 @@ export default function LoginPage() {
       navigation.navigate("ProgressModal")
     }
   }
+
+  function getSectionObserver(state: UiState<SectionModel[]>): undefined {
+    const data = state.data
+    if (state instanceof SuccessUiState) {
+      if(data?.length === 1 ){
+        navigation.navigate("BottomNavigation",data[0])
+      } else if ( data && data?.length > 1) {
+        // CHOSE SECTION SCREEN
+      } else {
+        navigation.navigate("PlaceHome")
+      }
+    }
+  }
+
   function processLoginOption(index: Number) {
     if(index === 1 && authController){
       authController.singInWithGoogle()

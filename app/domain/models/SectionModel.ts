@@ -7,13 +7,15 @@ export default class SectionModel {
     card: string
     placeName: string
     placeAddress: string
+    userId: string
     
 
-    constructor (place: string, card: string, placeName: string, placeAddress: string) {
+    constructor (place: string, card: string, placeName: string, placeAddress: string, uid: string) {
         this.place = place
         this.card = card
         this.placeName = placeName
         this.placeAddress = placeAddress
+        this.userId = uid
     }
 
     toObject() {
@@ -22,7 +24,8 @@ export default class SectionModel {
             place: this.place,
             card: this.card,
             placeName: this.placeName,
-            placeAddress: this.placeAddress
+            placeAddress: this.placeAddress,
+            userId: this.userId
         }
     }
 }
