@@ -6,7 +6,6 @@ export class PlaceModel {
     cidade: string;
     estado: string;
     favorite: boolean;
-    uid: string;
 
     constructor(
         name: string,
@@ -23,7 +22,6 @@ export class PlaceModel {
         this.cidade = cidade;
         this.estado = estado;
         this.favorite = favorite;
-        this.uid = uid
     }
 
     toObject() {
@@ -34,11 +32,15 @@ export class PlaceModel {
             bairro: this.bairro,
             cidade: this.cidade,
             estado: this.estado,
-            favorite: this.favorite,
         };
     }
 
     getCompleteAddres(): string {
         return `${this.endereco} bairro ${this.bairro}, ${this.cidade} - ${this.estado}`;
     }
+}
+
+export type favoritePlace = {
+    idPlace: string,
+    idUsuario: string
 }

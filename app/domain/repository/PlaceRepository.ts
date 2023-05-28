@@ -4,4 +4,5 @@ import { PlaceModel } from "../models/placemodel";
 
 export interface PlaceRepository{
     savePlace(placeModel: PlaceModel, uid: string): Promise<Resource<SectionModel>>
+    getFavoritePlaces(uid: string): Promise<Resource<PlaceModel[]>>
 }

@@ -12,4 +12,8 @@ export class PlaceUsecase {
     async saveAddress(placeAddres: PlaceModel, uid: string): Promise<Resource<SectionModel>> {
         return await this.repository.savePlace(placeAddres, uid)
     }
+
+    async getFavoritePlaces(uid: string): Promise<Resource<PlaceModel[]>> {
+        return await this.repository.getFavoritePlaces(uid)
+    }
 }
