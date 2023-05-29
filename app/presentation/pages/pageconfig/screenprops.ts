@@ -14,6 +14,7 @@ type ScreenStackProps = {
     BottomNavigation: SectionModel
     RegisterScreen: undefined,
     PlaceHome: undefined,
+    PlaceName: undefined,
     LoginScreen: undefined
 }
 

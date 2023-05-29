@@ -9,6 +9,7 @@ import BottomNavigationPage from "../bottom_navigation/bottom_navigation_page";
 import LoginPage from "../autheintication/LoginPage/LoginPage";
 import RegisterPage from "../autheintication/RegisterPage/RegisterPage";
 import SplashScreen from "../splash/SplashScreen";
+import FavoritePlacePage from "../place/favoriteplace/FavoritePlacePage";
 
 export default function StackComponent() {
   const Stack = createNativeStackNavigator();
@@ -36,6 +37,12 @@ export default function StackComponent() {
       <Stack.Group>
         <Stack.Screen
           name="PlaceHome"
+          component={FavoritePlacePage}
+          options={screenLightWithoutHeader()}
+        />
+
+        <Stack.Screen
+          name="PlaceName"
           component={PlaceNamePage}
           options={screenLightWithoutHeader()}
         />
