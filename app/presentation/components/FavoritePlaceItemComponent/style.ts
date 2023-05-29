@@ -12,7 +12,8 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.grayScale800,
         marginHorizontal: 24,
-        borderRadius: 12
+        borderRadius: 12,
+        marginTop: 14
 
     },
     imageLogo: {

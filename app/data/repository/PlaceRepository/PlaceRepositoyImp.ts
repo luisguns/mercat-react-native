@@ -1,4 +1,4 @@
-import { PlaceModel } from "../../../domain/models/placemodel";
+import { PlaceModel, favoritePlace } from "../../../domain/models/placemodel";
 import { PlaceRepository } from "../../../domain/repository/PlaceRepository";
 import {
     ErrorResource,
@@ -20,29 +20,24 @@ import PlaceNamePage from "../../../presentation/pages/place/placenamepage";
 import Collections from "../../service/Collections.json";
 
 export class PlaceRepositoryImp implements PlaceRepository {
-    getFavoritePlaces(uid: string): Promise<Resource<PlaceModel[]>> {
-        return firestore()
-            .collection(Collections.place_collection)
-            .where("uid", "==", uid)
-            .where("favorite", "==", true)
+    async getFavoritePlaces(uid: string): Promise<Resource<PlaceModel[]>> {
+        let listPlaces: PlaceModel[] = []
+        let favoritePlaces: favoritePlace[] = []
+        return await firestore()
+            .collection(Collections.favorite_place)
+            .where("idUsuario", "==", uid)
             .get()
             .then((value) => {
-                const placeList: PlaceModel[] = [];
                 value.forEach((responseItem) => {
-                    const item = responseItem.data() as PlaceModel;
-                    if (item) {
-                        placeList.push(item);
-                    }
+                    const favoritePlace = (responseItem.data() as favoritePlace)
+                    favoritePlaces.push(favoritePlace)
                 });
-                return Resource.Success(placeList);
+                return getFavoriteByFavoritePlace(favoritePlaces);  
             })
-            .catch((e) => {
-                const error = e as { code: string; cause: string };
-                return Resource.Error({
-                    code: -1,
-                    mensage: error.cause,
-                });
-            });
+            .catch((e: Error) => {
+                console.error(e)
+                return Resource.Error({code: -1, mensage: e.message})
+            })
     }
     async savePlace(
         placeModel: PlaceModel,
@@ -145,3 +140,31 @@ export class PlaceRepositoryImp implements PlaceRepository {
         });
     }
 }
+async function getFavoriteByFavoritePlace(favoritePlaces: favoritePlace[]): Promise<Resource<PlaceModel[]>> {
+    let listPlaces: PlaceModel[] = []
+    for (const favorite of favoritePlaces) {
+        const list = await getListFavoritePlace(favorite);
+        list.forEach((place) => {
+            listPlaces.push(place)
+        })
+    }
+    
+    return Resource.Success(listPlaces)
+}
+
+async function getListFavoritePlace(favorite: favoritePlace): Promise<PlaceModel[]> {
+    let listPlaces: PlaceModel[] = []
+    return await firestore().collection(Collections.place_collection)
+        .where("id", "==", favorite.idPlace)
+        .get()
+        .then((places) => {
+            places.forEach((placeItem) => {
+                let myPlace = (placeItem.data() as PlaceModel);
+                listPlaces.push(myPlace);
+            });
+            return listPlaces
+        }).catch((err) => {
+           return []
+        });
+}
+

@@ -14,6 +14,7 @@ export class PlaceUsecase {
     }
 
     async getFavoritePlaces(uid: string): Promise<Resource<PlaceModel[]>> {
+        
         return await this.repository.getFavoritePlaces(uid)
     }
 }

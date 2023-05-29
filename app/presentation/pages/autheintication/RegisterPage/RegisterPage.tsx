@@ -12,6 +12,7 @@ import { StackProps } from "../../pageconfig/screenprops";
 import { auth } from "../../../../config/firebaseconfig";
 import SectionController from "../../../controller/SectionController/SectionController";
 import SectionModel from "../../../../domain/models/SectionModel";
+import UserSingleton from "../../../../helper/UserSingleton";
 let authController: AuthenticationController
 let sectionConroller: SectionController
 export default function RegisterPage() {
@@ -64,6 +65,7 @@ export default function RegisterPage() {
         const data = state.data
         if(state instanceof SuccessUiState) {
             closeProgressModal(navigation)
+            UserSingleton.Instance.fromUserLogin(data?.success)
             sectionConroller.getSectionByUid(data?.success?.uid ? data?.success?.uid : "", false)
         }
         if( state instanceof ErrorUiState) {

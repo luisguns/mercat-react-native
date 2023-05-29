@@ -1,4 +1,5 @@
 {
     "section_collection": "section",
-    "place_collection": "place"
+    "place_collection": "place",
+    "favorite_place": "favorite_place"
 }

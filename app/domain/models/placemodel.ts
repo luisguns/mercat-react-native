@@ -38,6 +38,10 @@ export class PlaceModel {
     getCompleteAddres(): string {
         return `${this.endereco} bairro ${this.bairro}, ${this.cidade} - ${this.estado}`;
     }
+
+    static getCompleteAddress(placeModel: PlaceModel): string {
+        return `${placeModel.endereco} bairro ${placeModel.bairro}, ${placeModel.cidade} - ${placeModel.estado}`;
+    }
 }
 
 export type favoritePlace = {
