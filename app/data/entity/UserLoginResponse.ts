@@ -9,7 +9,7 @@ type errorAuth = {
     code: string | null
 }
 
-type userSuccesLogin = {
+export type userSuccesLogin = {
     email: string | null,
     displayname: string | null,
     uid: string | null

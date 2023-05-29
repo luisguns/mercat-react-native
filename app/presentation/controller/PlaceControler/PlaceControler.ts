@@ -13,6 +13,7 @@ export default class PlaceController {
     }
 
     placeRegisterObservable = new Obeservable<SectionModel>()
+    observableFavoritePlaces = new Obeservable<PlaceModel[]>()
 
 
 
@@ -26,6 +27,25 @@ export default class PlaceController {
                 this.placeRegisterObservable.emit(new ErrorUiState<SectionModel>({
                     code: value.error?.code,
                     mensage: value.error?.mensage,
+                }))
+            }
+        })
+    }
+
+    async getFavoritePlaces(uid: string)  {
+        this.observableFavoritePlaces.emit(new LoadingUiState<PlaceModel[]>())
+        await this.placeUseCase.getFavoritePlaces(uid).then ((value) => {
+            if (value instanceof SuccessResource) {
+                this.observableFavoritePlaces.emit(new SuccessUiState(value.data))
+            } else if (value instanceof ErrorResource) {
+                this.observableFavoritePlaces.emit(new ErrorUiState<PlaceModel[]>({
+                    code: value.error?.code,
+                    mensage: value.error?.mensage,
+                }))
+            } else {
+                this.observableFavoritePlaces.emit(new ErrorUiState<PlaceModel[]>({
+                    code: -1,
+                    mensage: "UNKNOW ERROR",
                 }))
             }
         })

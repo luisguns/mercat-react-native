@@ -15,6 +15,7 @@ import {closeProgressModal, getCurrentRoute } from '../../../../helper/navigatio
 import SectionController from "../../../controller/SectionController/SectionController";
 import SectionModel from "../../../../domain/models/SectionModel";
 import { StatusBar } from "expo-status-bar";
+import UserSingleton from "../../../../helper/UserSingleton";
 
 const repos = new AuthenticatorRepositoryImp()
 let authController: AuthenticationController
@@ -48,6 +49,7 @@ export default function LoginPage() {
     const data = state.data
     if(state instanceof SuccessUiState) {
       closeProgressModal(navigation)
+      UserSingleton.Instance.fromUserLogin(data?.success)
       sectionConroller.getSectionByUid(data?.success?.uid ? data?.success?.uid : "", false)
     } else if (state instanceof ErrorUiState) {
       if (state.error?.code === -1 ){

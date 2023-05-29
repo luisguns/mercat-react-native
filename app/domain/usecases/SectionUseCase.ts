@@ -1,5 +1,6 @@
 import { Resource } from "../../data/helper/Resource";
 import SectionModel from "../models/SectionModel";
+import { PlaceModel } from "../models/placemodel";
 import SectionRepository from "../repository/SectionRepository";
 
 export default class SectioUseCase {
@@ -10,6 +11,10 @@ export default class SectioUseCase {
 
     async getSectionByUid(uid: string): Promise<Resource<SectionModel[]>> {
         return await this.repository.getSectionByUid(uid)
+    }
+
+    async createSectionWithPlace(place: PlaceModel, uid: string): Promise<Resource<SectionModel>> {
+        return await this.repository.createNewSectionWithPlace(place, uid)
     }
 
     finishSection() {
