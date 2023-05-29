@@ -12,10 +12,12 @@ import Colors from "../../../values/colors";
 import PlaceController from "../../../controller/PlaceControler/PlaceControler";
 import { ErrorUiState, LoadingUiState, SuccessUiState, UiState } from '../../../../helper/UiState';
 import { auth } from '../../../../config/firebaseconfig';
-import UserSingleton from '../../../../helper/UserSingleton';
+import SectionController from '../../../controller/SectionController/SectionController';
+import SectionModel from '../../../../domain/models/SectionModel';
 
 
 let placeController: PlaceController
+let sectionController: SectionController
 export default function FavoritePlacePage() {
     const navigation = useNavigation<StackProps>()
 
@@ -28,8 +30,16 @@ export default function FavoritePlacePage() {
         if(!placeController) {
             placeController = new PlaceController()
         }
+
+        if(!sectionController) {
+            sectionController = new SectionController()
+        }
+
         if(!placeController.observableFavoritePlaces.observable) {
             setObserver()
+        }
+        if(!sectionController.observableSectionNewWithPlace.observable) {
+            setSectionObserver()
         }
 
         if(placeController.observableFavoritePlaces.observable) {
@@ -44,6 +54,23 @@ export default function FavoritePlacePage() {
 
     function setObserver() {
         placeController.observableFavoritePlaces.observe(favoriteObserverListen)
+    }
+
+    function setSectionObserver() {
+        sectionController.observableSectionNewWithPlace.observe(newSectionObserverListen)
+    }
+
+    function newSectionObserverListen(state: UiState<SectionModel>): undefined {
+        if (state instanceof SuccessUiState) {
+              navigation.navigate("BottomNavigation",state.data)
+
+            
+          } else if (state instanceof ErrorUiState){
+            setLoading(false)
+            alert(state.error?.mensage ? state.error?.mensage  : "UNKNOW ERROR")
+          } else if (state instanceof LoadingUiState){
+              setLoading(true)
+          }
     }
 
     function favoriteObserverListen(state: UiState<PlaceModel[]>): undefined {
@@ -69,8 +96,10 @@ export default function FavoritePlacePage() {
     }
 
     function registerSectionWithFavoritePlace(place: PlaceModel): undefined {
-        //TODO Apos selecionar favorito criar nova seção
-        console.log(place)
+        const uid = auth().currentUser?.uid
+        if(uid) {
+            sectionController.registerNewAddressAnSection(place, uid)
+        }
     }
 
     function containerPage() {
@@ -104,7 +133,9 @@ export default function FavoritePlacePage() {
             data={placeModel}
             renderItem={(item) => {
                 return (
-                    <FavoritePlaceItemComponent placeModel={item.item} pressItem={registerSectionWithFavoritePlace} /> 
+                    <FavoritePlaceItemComponent placeModel={item.item} pressItem={(model) => {
+                        registerSectionWithFavoritePlace(model)
+                    }} /> 
                 );
             } } />;    
     }
