@@ -1,7 +1,6 @@
 import { View } from 'react-native'
-import styles from './style'
 
-export default function HomePage() {
+export default function MainProfilePage() {
     return (
         <View > 
             
