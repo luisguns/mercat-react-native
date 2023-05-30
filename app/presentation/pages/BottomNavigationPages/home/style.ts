@@ -3,7 +3,7 @@ import Colors from "../../../values/colors";
 
 export default StyleSheet.create({
     container: {
-        backgroundColor: Colors.grayScale050,
+        backgroundColor: Colors.grayScale900,
         flex: 1,
     }
 });
