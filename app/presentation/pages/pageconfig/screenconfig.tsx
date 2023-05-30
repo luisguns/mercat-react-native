@@ -5,11 +5,11 @@ import { screenLightWithoutHeader } from "../../values/themes";
 import PlaceAddressPage from "../place/placeaddresspage";
 import ModalScreen from "../place/placeaddresspage/modal";
 import ProgressModal from "../../components/ModalComponent/ProgressModal";
-import BottomNavigationPage from "../bottom_navigation/bottom_navigation_page";
 import LoginPage from "../autheintication/LoginPage/LoginPage";
 import RegisterPage from "../autheintication/RegisterPage/RegisterPage";
 import SplashScreen from "../splash/SplashScreen";
 import FavoritePlacePage from "../place/favoriteplace/FavoritePlacePage";
+import BottomNavigationStack from "./BottomNavigationConfig/bottomconfig";
 
 export default function StackComponent() {
   const Stack = createNativeStackNavigator();
@@ -55,7 +55,7 @@ export default function StackComponent() {
 
         <Stack.Screen
           name="BottomNavigation"
-          component={BottomNavigationPage}
+          component={BottomNavigationStack}
           options={screenLightWithoutHeader()}
         />
       </Stack.Group>
