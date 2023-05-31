@@ -113,7 +113,7 @@ export default function FavoritePlacePage() {
         return (
             <View style={styles.container}>
                 <DefaultStatusBar />
-                <Text style={styles.title} >Estabelecimentos favoritos</Text>
+                <Text style={[styles.title]} >Estabelecimentos favoritos</Text>
                 {component}
                 <FloatingActionButton hasTitle={emptyState} onPress={() => {navigation.navigate("PlaceName")}} />
             </View>
@@ -129,7 +129,7 @@ export default function FavoritePlacePage() {
 
     function haveFavoritePlaces() {
         return <FlatList
-            style={{ flex: 1 }}
+            style={{ height: "90%" }}
             data={placeModel}
             renderItem={(item) => {
                 return (

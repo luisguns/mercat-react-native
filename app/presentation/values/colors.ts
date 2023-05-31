@@ -9,4 +9,5 @@ export default class Colors {
     static grayScale800: string = '#26282B'
     static grayScale900: string = '#1B1D1F'
     static light: string = '#ffffff'
+    static lightOpac: string = 'rgba(255, 255, 255, 0.66)'
 }

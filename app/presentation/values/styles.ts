@@ -15,4 +15,9 @@ export default StyleSheet.create({
     fontWeight: "500",
     marginTop: 8,
   },
+
+  row: {
+    flexDirection: "row",
+    alignItems: "stretch",
+},
 });
