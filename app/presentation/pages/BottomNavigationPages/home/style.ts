@@ -8,12 +8,13 @@ export default StyleSheet.create({
 
     topSideContainer: {
         backgroundColor: Colors.grayScale600,
-        paddingBottom: 35
+        paddingBottom: 35,
+        flex: 1,
     }, 
     bottomSideContainer: {
         backgroundColor: Colors.light,
-        flex: 1,
         borderTopLeftRadius: 16,
+        flex: 1,
         borderTopRightRadius: 16
     },
 

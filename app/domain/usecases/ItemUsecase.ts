@@ -11,4 +11,8 @@ export default class ItemUsecase {
     async createNewPurhcasedItem(itemPurchased: ItemPurchasedModel): Promise<Resource<ItemPurchasedModel>> {
         return await this.repository.saveItemPurchased(itemPurchased) 
     }
+
+    async getAllItemBySection(sectionId: string, orderByName: boolean): Promise<Resource<ItemPurchasedModel[]>> {
+        return await this.repository.getPurchasedItemBySection(sectionId, orderByName) 
+    }
 }

@@ -19,6 +19,7 @@ const DEFAULT_VALUE_TEXT = "R$ "
 export default function AddItemCardComponent(props: {
     syle?: StyleProp<ViewStyle>;
     section?: SectionModel;
+    shouldReload: () => undefined
 }) {
     const [nameProduct, setNameProduct] = useState<string>();
     const [valueProduct, setValueProduct] = useState<number>();
@@ -41,6 +42,7 @@ export default function AddItemCardComponent(props: {
         if(state instanceof LoadingUiState) {
             setIsLoadingState(true)
         } else if(state instanceof SuccessUiState){
+            props.shouldReload()
             Snackbar.show({
                 text: "Item adicionado",
                 duration: Snackbar.LENGTH_LONG,
@@ -175,7 +177,6 @@ export default function AddItemCardComponent(props: {
                 ]}
             >
                 <NumberPickerComponent
-                    initialNumber={quantityProduct}
                     numberChanged={(quantity) => {
                         setQuantityProduct(quantity);
                     }}

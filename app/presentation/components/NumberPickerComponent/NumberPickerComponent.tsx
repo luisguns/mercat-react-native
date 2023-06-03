@@ -3,23 +3,20 @@ import styles from "./style";
 import { useEffect, useState } from "react";
 
 export default function NumberPickerComponent(props: {
-    numberChanged: (number: number) => undefined
-    initialNumber: number
+    numberChanged: (number: number) => undefined;
 }) {
     const [number, setNumber] = useState<number>(1);
 
     useEffect(() => {
-        console.log(number)
-        setNumber(props.initialNumber)
-    }, [])
-
-    useEffect(() => {
-        props.numberChanged(number)
-    }, [number])
+        props.numberChanged(number);
+    }, [number]);
     return (
         <View style={styles.container}>
-            <TouchableOpacity 
-            onPress={() => { decrementNumber()}}>
+            <TouchableOpacity
+                onPress={() => {
+                    decrementNumber();
+                }}
+            >
                 <Image
                     style={styles.imagePlus}
                     source={require("../../../assets/minus.png")}
@@ -27,8 +24,11 @@ export default function NumberPickerComponent(props: {
             </TouchableOpacity>
             <Text style={styles.numberText}> {number} </Text>
 
-            <TouchableOpacity 
-            onPress={() => { setNumber(number+1)}}>
+            <TouchableOpacity
+                onPress={() => {
+                    setNumber(number + 1);
+                }}
+            >
                 <Image
                     style={styles.imagePlus}
                     source={require("../../../assets/plus_icon.png")}
@@ -38,9 +38,8 @@ export default function NumberPickerComponent(props: {
     );
 
     function decrementNumber() {
-        if(number  > 1) {
-            setNumber(number - 1)
+        if (number > 1) {
+            setNumber(number - 1);
         }
     }
-
 }

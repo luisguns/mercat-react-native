@@ -6,10 +6,32 @@ import { Resource } from "../../helper/Resource";
 import Collections from "../../service/Collections.json";
 
 export default class ItemRepositoryImp implements ItemRepository {
-    getPurchasedItemBySection(
-        sectionId: string
+    async getPurchasedItemBySection(
+        sectionId: string,
+        orderByName: boolean
     ): Promise<Resource<ItemPurchasedModel[]>> {
-        throw new Error("Method not implemented.");
+        return await firestore().collection(Collections.purchased_item_collection)
+        .where("idSection", "==", sectionId)
+        .get()
+        .then((response) => {
+            const itemPurchasedList: ItemPurchasedModel[] = []
+            response.forEach((itemPurchasedDTO) => {
+                const itemPurchased = itemPurchasedDTO.data() as ItemPurchasedModel
+                itemPurchasedList.push(itemPurchased)
+            })
+            if(orderByName){
+                itemPurchasedList.sort((a, b) => (a.name < b.name) ? -1 : 1);
+            }
+            return Resource.Success(itemPurchasedList)
+        })
+        .catch((err) => {
+            const error = err as Error
+            return Resource.Error({
+                code: -1,
+                mensage: error.message
+            })
+        })
+
     }
     async saveItemPurchased(
         itemPurchased: ItemPurchasedModel
@@ -36,7 +58,6 @@ export default class ItemRepositoryImp implements ItemRepository {
                 return await this.getItemByName(itemPurchased.name)
                     .then(async (result) => {
                         if (result.data?.id) {
-                            console.log(result.data)
                             itemPurchased.idItem = result.data?.id;
                             return purchasedItemDoc
                                 .set(itemPurchased)
@@ -51,7 +72,6 @@ export default class ItemRepositoryImp implements ItemRepository {
                                     });
                                 });
                         } else {
-                            console.log("DONT HAVE ITEM CREATED");
                             const batch = firestore().batch();
 
                             const itemCollection = firestore()
