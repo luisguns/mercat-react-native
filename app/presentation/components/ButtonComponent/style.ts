@@ -13,13 +13,12 @@ export default StyleSheet.create({
 
     secondaryButton: {
         backgroundColor: Colors.primaryDark,
-        padding: 12,
         alignItems : "center",
         justifyContent: "center",
         alignSelf: 'stretch',
         borderRadius: 10,
     },
     textPrimaryButton: {
-        color: '#fff'
+        color: '#fff',
     }
 });

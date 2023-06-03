@@ -14,6 +14,7 @@ import { ErrorUiState, LoadingUiState, SuccessUiState, UiState } from '../../../
 import { auth } from '../../../../config/firebaseconfig';
 import SectionController from '../../../controller/SectionController/SectionController';
 import SectionModel from '../../../../domain/models/SectionModel';
+import SnackbarError from '../../../components/SnackbarComponent/SnackbarComponent';
 
 
 let placeController: PlaceController
@@ -67,7 +68,7 @@ export default function FavoritePlacePage() {
             
           } else if (state instanceof ErrorUiState){
             setLoading(false)
-            alert(state.error?.mensage ? state.error?.mensage  : "UNKNOW ERROR")
+            SnackbarError(state.error?.mensage ? state.error?.mensage?.toString()  : "UNKNOW ERROR")
           } else if (state instanceof LoadingUiState){
               setLoading(true)
           }
@@ -91,7 +92,7 @@ export default function FavoritePlacePage() {
                 }
             }
         } else if (state instanceof ErrorUiState) {
-            alert(state.error?.mensage)
+            SnackbarError(state.error?.mensage?.toString())
         }
     }
 

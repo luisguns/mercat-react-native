@@ -3,6 +3,7 @@ export default class Colors {
     static primaryDark: string = '#2D0606'
     static secondary: string = '#080A0C'
     static accent: string = '#E8AA42'
+    static greenDark: string = '#315e26'
     static grayScale050: string = '#F7F8F9'
     static grayScale500: string = '#CCCCCC'
     static grayScale600: string = '#494B4E'

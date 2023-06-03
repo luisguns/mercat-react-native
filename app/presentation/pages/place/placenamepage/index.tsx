@@ -10,6 +10,7 @@ import {useNavigation } from "@react-navigation/native";
 import Colors from "../../../values/colors";
 import { StackProps } from "../../pageconfig/screenprops";
 import { useState } from "react";
+import SnackbarError from "../../../components/SnackbarComponent/SnackbarComponent";
 
 export default function PlaceNamePage() {
   const [myNamePlace, setNamePlace] = useState<string>('')
@@ -38,7 +39,7 @@ export default function PlaceNamePage() {
     if (myNamePlace) {
       navigations.navigate("PlaceAddress", { placeName: myNamePlace });
     } else {
-      alert("Preencha o campo de nome")
+      SnackbarError("Preencha o campo de nome")
     }
   }
 }

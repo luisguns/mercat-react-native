@@ -35,8 +35,8 @@ export default class SectionRepositoryImp implements SectionRepository {
                 uid
             );
             sectionModel.id = sectionCollection.id;
-            batch.set(cardCollection, cardModel.toObject());
-            batch.set(sectionCollection, sectionModel.toObject());
+            batch.set(cardCollection, cardModel);
+            batch.set(sectionCollection, sectionModel);
 
             await this.deleteAllSection(uid, true).catch((e) => {
                 return new ErrorResource<SectionModel>({

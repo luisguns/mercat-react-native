@@ -1,9 +1,21 @@
 import { Image, View, Text, TouchableOpacity } from "react-native";
 import styles from "./style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function NumberPickerComponent() {
+export default function NumberPickerComponent(props: {
+    numberChanged: (number: number) => undefined
+    initialNumber: number
+}) {
     const [number, setNumber] = useState<number>(1);
+
+    useEffect(() => {
+        console.log(number)
+        setNumber(props.initialNumber)
+    }, [])
+
+    useEffect(() => {
+        props.numberChanged(number)
+    }, [number])
     return (
         <View style={styles.container}>
             <TouchableOpacity 

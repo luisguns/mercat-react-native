@@ -47,6 +47,7 @@ export default function MainHomePage() {
                     />
                     <AddItemCardComponent
                         syle={{ marginTop: 50, marginHorizontal: 10 }}
+                        section={section}
                     />
 
                     <PrimaryCardComponent

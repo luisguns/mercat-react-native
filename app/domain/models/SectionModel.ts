@@ -8,14 +8,16 @@ export default class SectionModel {
     placeName: string
     placeAddress: string
     userId: string
+    actived: boolean
     
 
-    constructor (place: string, card: string, placeName: string, placeAddress: string, uid: string) {
+    constructor (place: string, card: string, placeName: string, placeAddress: string, uid: string, actived: boolean = true) {
         this.place = place
         this.card = card
         this.placeName = placeName
         this.placeAddress = placeAddress
         this.userId = uid
+        this.actived = actived
     }
 
     toObject() {
@@ -25,7 +27,8 @@ export default class SectionModel {
             card: this.card,
             placeName: this.placeName,
             placeAddress: this.placeAddress,
-            userId: this.userId
+            userId: this.userId,
+            actived: this.actived
         }
     }
 }
