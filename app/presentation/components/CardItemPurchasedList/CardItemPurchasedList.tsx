@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import styles from './style'
 import ItemPurchasedModel from '../../../domain/models/ItemPurchased'
+import { BRLFormat } from '../../../helper/StringHelper'
 
 export default function CardItemPurchasedList(props: {
     itemPurchased: ItemPurchasedModel
@@ -15,7 +16,7 @@ export default function CardItemPurchasedList(props: {
                 <Text style={styles.textDesc}> {props.itemPurchased.quantity} </Text>
             </View>
 
-            <Text style={styles.textValue}> R$ {props.itemPurchased.value} </Text>
+            <Text style={styles.textValue}> {BRLFormat.format(props.itemPurchased.value)} </Text>
         </View>
         </TouchableOpacity>
     )

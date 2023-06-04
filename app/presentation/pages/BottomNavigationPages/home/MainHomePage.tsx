@@ -29,6 +29,7 @@ import ItemPurchasedModel from "../../../../domain/models/ItemPurchased";
 import { SubTitleH3 } from "../../../values/themes";
 import CardItemPurchasedList from "../../../components/CardItemPurchasedList/CardItemPurchasedList";
 import SnackbarError from "../../../components/SnackbarComponent/SnackbarComponent";
+import { BRLFormat } from "../../../../helper/StringHelper";
 
 let itemController: ItemController;
 export default function MainHomePage() {
@@ -188,7 +189,7 @@ export default function MainHomePage() {
                         marginTop: 8,
                     }}
                 >
-                    R$ {getTotalValueCartList(purchasedItemList)}
+                    {getTotalValueCartList(purchasedItemList)}
                 </Text>
             </View>
         );
@@ -213,8 +214,8 @@ function placeNameChipsStyled(section: SectionModel): () => JSX.Element {
     };
 }
 
-function getTotalValueCartList(purchasedItemList: ItemPurchasedModel[]) : number {
+function getTotalValueCartList(purchasedItemList: ItemPurchasedModel[]) : string {
     let totalValue = 0
     purchasedItemList.forEach((item) => { totalValue+=item.value})
-    return totalValue
+    return BRLFormat.format(totalValue)
 }

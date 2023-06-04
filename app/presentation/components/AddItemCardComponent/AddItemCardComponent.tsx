@@ -125,6 +125,8 @@ export default function AddItemCardComponent(props: {
                     if (text) {
                         //TODO Buscar itens no firestore enquanto digita
                         setNameProduct(text);
+                    } else {
+                        setNameProduct("")
                     }
                 }}
             />
