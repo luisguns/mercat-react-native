@@ -10,7 +10,15 @@ export default StyleSheet.create({
         alignSelf: 'stretch',
         borderRadius: 100,
     },
+
+    secondaryButton: {
+        backgroundColor: Colors.primaryDark,
+        alignItems : "center",
+        justifyContent: "center",
+        alignSelf: 'stretch',
+        borderRadius: 10,
+    },
     textPrimaryButton: {
-        color: '#fff'
+        color: '#fff',
     }
 });

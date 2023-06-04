@@ -13,6 +13,7 @@ import { auth } from "../../../../config/firebaseconfig";
 import SectionController from "../../../controller/SectionController/SectionController";
 import SectionModel from "../../../../domain/models/SectionModel";
 import UserSingleton from "../../../../helper/UserSingleton";
+import SnackbarError from "../../../components/SnackbarComponent/SnackbarComponent";
 let authController: AuthenticationController
 let sectionConroller: SectionController
 export default function RegisterPage() {
@@ -70,7 +71,7 @@ export default function RegisterPage() {
         }
         if( state instanceof ErrorUiState) {
             closeProgressModal(navigation)
-            alert(state.error?.mensage)
+            SnackbarError(state.error?.mensage?.toString())
         }
         if(state instanceof LoadingUiState) {
             navigation.navigate("ProgressModal")

@@ -16,6 +16,7 @@ import SectionController from "../../../controller/SectionController/SectionCont
 import SectionModel from "../../../../domain/models/SectionModel";
 import { StatusBar } from "expo-status-bar";
 import UserSingleton from "../../../../helper/UserSingleton";
+import SnackbarError from "../../../components/SnackbarComponent/SnackbarComponent";
 
 const repos = new AuthenticatorRepositoryImp()
 let authController: AuthenticationController
@@ -54,11 +55,11 @@ export default function LoginPage() {
     } else if (state instanceof ErrorUiState) {
       if (state.error?.code === -1 ){
         closeProgressModal(navigation)
-        alert("Ocorreu um erro, tente novamente mais tarde")
+        SnackbarError("Ocorreu um erro, tente novamente mais tarde")
         return
       } 
 
-      alert(state.error?.mensage)
+      SnackbarError(state.error?.mensage?.toString())
     } else if ( state instanceof LoadingUiState){
       navigation.navigate("ProgressModal")
     }

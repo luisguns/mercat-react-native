@@ -71,9 +71,9 @@ export class PlaceRepositoryImp implements PlaceRepository {
             );
             sectionModel.id = sectionCollection.id;
 
-            batch.set(placeCollection, placeModel.toObject());
-            batch.set(cardCollection, cardModel.toObject());
-            batch.set(sectionCollection, sectionModel.toObject());
+            batch.set(placeCollection, placeModel);
+            batch.set(cardCollection, cardModel);
+            batch.set(sectionCollection, sectionModel);
 
             if(placeModel.favorite) {
                 batch.set(favoritePlaceCollection, {

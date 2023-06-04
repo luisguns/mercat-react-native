@@ -12,7 +12,6 @@ import MainDashboardPage from "../../BottomNavigationPages/dashboard/MainDashboa
 import MainProfilePage from "../../BottomNavigationPages/profile/MainProfilePage";
 
 
-
 let section: SectionModel
 export default function BottomNavigationStack() {
     const Tab = createBottomTabNavigator<BottomTabScreenProps>();

@@ -15,6 +15,7 @@ import { Resource, SuccessResource } from "../../../../data/helper/Resource";
 import { PlaceModel } from "../../../../domain/models/placemodel";
 import CheckBox from "@react-native-community/checkbox";
 import { auth } from "../../../../config/firebaseconfig";
+import SnackbarError from "../../../components/SnackbarComponent/SnackbarComponent";
 
 const user = auth().currentUser
 export default function PlaceAddressPage() {
@@ -30,7 +31,7 @@ export default function PlaceAddressPage() {
 
   function createAddresPlaceModel(): PlaceModel | undefined {
     if ( !address || !addressBairro || !addressCidade ||!addresEstado ){
-      alert("Preencha todos os campos")
+      SnackbarError("Preencha todos os campos")
       return
     } else {
       return new PlaceModel(placename.toString(),address,addressBairro,addressCidade,addresEstado, toggleCheckBox)

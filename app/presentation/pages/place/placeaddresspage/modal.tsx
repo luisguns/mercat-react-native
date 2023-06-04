@@ -14,6 +14,7 @@ import { LoadingUiState, SuccessUiState, UiState } from "../../../../helper/UiSt
 import SectionModel from "../../../../domain/models/SectionModel";
 import { getCurrentRoute } from "../../../../helper/navigationhelp";
 import { auth } from "../../../../config/firebaseconfig";
+import SnackbarError from "../../../components/SnackbarComponent/SnackbarComponent";
 
 let uidUser: string | undefined
 export default function ModalScreen() {
@@ -45,7 +46,7 @@ export default function ModalScreen() {
       if (getCurrentRoute(navigation.getState()) === "ProgressModal"){
         navigation.goBack()
       }
-      alert(value.error?.mensage ? value.error?.mensage  : "UNKNOW ERROR")
+      SnackbarError(value.error?.mensage ? value.error?.mensage.toString()  : "UNKNOW ERROR")
     } else if (value instanceof LoadingUiState){
         navigation.navigate("ProgressModal")
     }
@@ -101,7 +102,7 @@ export default function ModalScreen() {
                 if(uidUser) {
                   placeController?.registerNewAddressAnSection(placeModel,uidUser)
                 } else {
-                  alert("Login expirado")
+                  SnackbarError("Login expirado")
                 }
               }}
             >
