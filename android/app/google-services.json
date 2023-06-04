@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "389761954341",
+    "project_id": "mercatapp-a2ab1",
+    "storage_bucket": "mercatapp-a2ab1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389761954341:android:f05e352df557c4efb685cc",
+        "android_client_info": {
+          "package_name": "com.anonymous.MercatAPP"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389761954341-m9tmrv95sb2crcqssj50gpdrcchsl7t5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anonymous.MercatAPP",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "389761954341-8i87lgfsivl30mgefps716se68mc8gil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6rftqbpJOTkho6l_KpCnrxL5-xlVTdYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389761954341-8i87lgfsivl30mgefps716se68mc8gil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
