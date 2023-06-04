@@ -10,3 +10,4 @@ A personal project to pratice ReactNative and personal usage. The application ca
 - Firebase Auth
 - Firebase Cloud Firestore
 - Firebase Distribuition
+- React Navigation
