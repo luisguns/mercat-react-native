@@ -15,7 +15,8 @@ export default StyleSheet.create({
         backgroundColor: Colors.light,
         borderTopLeftRadius: 16,
         flex: 1,
-        borderTopRightRadius: 16
+        borderTopRightRadius: 16,
+        paddingBottom: 24
     },
 
     square: {

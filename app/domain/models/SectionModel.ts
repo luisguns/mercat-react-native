@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import CardModel from "./CardModel";
 import { PlaceModel } from "./placemodel";
 
@@ -9,6 +10,7 @@ export default class SectionModel {
     placeAddress: string
     userId: string
     actived: boolean
+    date: Timestamp
     
 
     constructor (place: string, card: string, placeName: string, placeAddress: string, uid: string, actived: boolean = true) {
@@ -18,17 +20,6 @@ export default class SectionModel {
         this.placeAddress = placeAddress
         this.userId = uid
         this.actived = actived
-    }
-
-    toObject() {
-        return {
-            id: this.id,
-            place: this.place,
-            card: this.card,
-            placeName: this.placeName,
-            placeAddress: this.placeAddress,
-            userId: this.userId,
-            actived: this.actived
-        }
+        this.date = Timestamp.now()
     }
 }
