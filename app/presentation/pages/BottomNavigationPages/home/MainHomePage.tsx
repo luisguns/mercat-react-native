@@ -216,6 +216,6 @@ function placeNameChipsStyled(section: SectionModel): () => JSX.Element {
 
 function getTotalValueCartList(purchasedItemList: ItemPurchasedModel[]) : string {
     let totalValue = 0
-    purchasedItemList.forEach((item) => { totalValue+=item.value})
+    purchasedItemList.forEach((item) => { totalValue+= (item.value * item.quantity)})
     return BRLFormat.format(totalValue)
 }

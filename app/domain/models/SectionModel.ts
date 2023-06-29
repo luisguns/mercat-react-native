@@ -11,9 +11,10 @@ export default class SectionModel {
     userId: string
     actived: boolean
     date: Timestamp
+    finalValue: number
     
 
-    constructor (place: string, card: string, placeName: string, placeAddress: string, uid: string, actived: boolean = true) {
+    constructor (place: string, card: string, placeName: string, placeAddress: string, uid: string, actived: boolean = true, finalValue = 0) {
         this.place = place
         this.card = card
         this.placeName = placeName
@@ -21,5 +22,6 @@ export default class SectionModel {
         this.userId = uid
         this.actived = actived
         this.date = Timestamp.now()
+        this.finalValue = finalValue
     }
 }

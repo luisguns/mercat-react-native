@@ -4,22 +4,24 @@ import CardModel from "../../../domain/models/CardModel";
 import SectionModel from "../../../domain/models/SectionModel";
 import { PlaceModel } from "../../../domain/models/placemodel";
 import SectionRepository from "../../../domain/repository/SectionRepository";
-import { ErrorResource, Resource, SuccessResource } from "../../helper/Resource";
-import Collections from "../../service/Collections.json"
+import {
+    ErrorResource,
+    Resource,
+    SuccessResource,
+} from "../../helper/Resource";
+import Collections from "../../service/Collections.json";
 
 export default class SectionRepositoryImp implements SectionRepository {
-
-
-
-    async createNewSectionWithPlace(placeModel: PlaceModel, uid: string): Promise<Resource<SectionModel>> {
+    async createNewSectionWithPlace(
+        placeModel: PlaceModel,
+        uid: string
+    ): Promise<Resource<SectionModel>> {
         let resoucer: Resource<SectionModel> = new ErrorResource<SectionModel>({
             code: -1,
             mensage: "UNKNOW ERROR",
         });
         try {
             const batch = firestore().batch();
-
-            
 
             //Collections
             const cardCollection = firestore().collection("card").doc();
@@ -64,7 +66,7 @@ export default class SectionRepositoryImp implements SectionRepository {
                 });
         } catch (e) {
             if (e instanceof Error) {
-                console.error(e)
+                console.error(e);
                 resoucer = new ErrorResource<SectionModel>({
                     code: 2,
                     mensage: "savePlace CATCH ERROR : " + e.message,
@@ -97,32 +99,48 @@ export default class SectionRepositoryImp implements SectionRepository {
         });
     }
 
-
     async getSectionByUid(uid: string): Promise<Resource<SectionModel[]>> {
         return await firestore()
-        .collection(Collections.section_collection)
-        .where('userId', '==', uid)
-        .get()
-        .then((response) => {
-            const sectionList: SectionModel[] = []
-            response.forEach((responseItem) => {
-                const item = (responseItem.data() as SectionModel)
-                if(item) {
-                    sectionList.push(item)
-                }
+            .collection(Collections.section_collection)
+            .where("userId", "==", uid)
+            .where("actived", "==", true)
+            .get()
+            .then((response) => {
+                const sectionList: SectionModel[] = [];
+                response.forEach((responseItem) => {
+                    const item = responseItem.data() as SectionModel;
+                    if (item) {
+                        sectionList.push(item);
+                    }
+                });
+                return Resource.Success(sectionList);
             })
-            return Resource.Success(sectionList)
-        })
-        .catch((e) => {
-            const error = e as {code: string, cause: string}
-            return Resource.Error({
-                code: -1,
-                mensage: error.cause
-            })
-        })
-    }
-    finishSection(sectionId: string): Promise<Resource<SectionModel>> {
-        throw new Error("Method not implemented.");
+            .catch((e) => {
+                const error = e as { code: string; cause: string };
+                return Resource.Error({
+                    code: -1,
+                    mensage: error.cause,
+                });
+            });
     }
 
+    async finishSection(
+        section: SectionModel
+    ): Promise<Resource<SectionModel>> {
+        section.actived = false;
+        return firestore()
+            .collection(Collections.section_collection)
+            .doc(section.id)
+            .update(section)
+            .then(() => {
+                return Resource.Success(section);
+            })
+            .catch((e) => {
+                const error = e as { code: string; cause: string };
+                return Resource.Error({
+                    code: -1,
+                    mensage: error.cause,
+                });
+            });
+    }
 }

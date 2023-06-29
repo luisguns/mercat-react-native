@@ -14,6 +14,7 @@ import ItemController from "../../controller/ItemController/ItemController";
 import SectionModel from "../../../domain/models/SectionModel";
 import Snackbar from "react-native-snackbar";
 import SnackbarError from "../SnackbarComponent/SnackbarComponent";
+import { BRLFormat } from "../../../helper/StringHelper";
 const itemController = new ItemController();
 const DEFAULT_VALUE_TEXT = "R$ "
 export default function AddItemCardComponent(props: {
@@ -167,6 +168,14 @@ export default function AddItemCardComponent(props: {
                     </Text>
                 </View>
             </View>
+
+            <Text>
+                {
+                valueProduct ?
+                BRLFormat.format(quantityProduct * valueProduct) :
+                ""
+            }
+            </Text>
 
             <View
                 style={[

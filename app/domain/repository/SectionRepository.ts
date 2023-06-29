@@ -6,7 +6,7 @@ export default interface SectionRepository {
 
     getSectionByUid(uid: string): Promise<Resource<SectionModel[]>>
     
-    finishSection(sectionId: string): Promise<Resource<SectionModel>>
+    finishSection(section: SectionModel): Promise<Resource<SectionModel>>
 
     createNewSectionWithPlace(place: PlaceModel, uid: string): Promise<Resource<SectionModel>>
 

@@ -17,8 +17,8 @@ export default class SectioUseCase {
         return await this.repository.createNewSectionWithPlace(place, uid)
     }
 
-    finishSection() {
-
+    async finishSection(section: SectionModel) {
+        return await this.repository.finishSection(section)
     }
 
 }

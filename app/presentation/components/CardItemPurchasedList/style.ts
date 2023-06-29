@@ -26,6 +26,10 @@ export default StyleSheet.create({
         flex: 1,
         marginStart: 14
     },
+    textRightContent: {
+        marginEnd: 14,
+        alignItems: "flex-end"
+    },
     imageEnd: {
         width: 18,
         height: 18,
@@ -44,10 +48,16 @@ export default StyleSheet.create({
         color: Colors.grayScale600
     },
 
+    textValueCalc: {
+        fontSize: 12,
+        fontWeight: "300",
+        color: Colors.grayScale600,
+        marginTop: 4
+    },
+
     textValue: {
         fontSize: 14,
         fontWeight: "900",
         color: Colors.grayScale900,
-        marginEnd: 14,
     },
 });

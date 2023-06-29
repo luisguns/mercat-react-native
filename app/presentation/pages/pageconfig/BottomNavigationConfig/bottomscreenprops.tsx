@@ -6,9 +6,10 @@ import { NavigationHelpers, ParamListBase, TabNavigationState } from '@react-nav
 
 export type BottomTabScreenProps = {
     Home: SectionModel,
-    Compras: undefined,
+    Carrinho: SectionModel,
     Historico: undefined
-    Perfil: undefined
+    Perfil: undefined,
+    
 }
 
 export type BottomTabStack = NativeStackNavigationProp<BottomTabScreenProps>;

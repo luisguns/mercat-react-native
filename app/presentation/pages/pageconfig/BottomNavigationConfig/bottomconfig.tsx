@@ -39,8 +39,9 @@ export default function BottomNavigationStack() {
                 initialParams={section}
             ></Tab.Screen>
             <Tab.Screen
-                name="Compras"
+                name="Carrinho"
                 component={MainPurchasePage}
+                initialParams={section}
             ></Tab.Screen>
             <Tab.Screen
                 name="Historico"
@@ -80,7 +81,7 @@ function configureBottomIcons(route: RouteProp<ParamListBase, string>) {
             );
         }
 
-        if (route.name === "Compras") {
+        if (route.name === "Carrinho") {
             return (
                 <Image
                     style={[style.iconTab, hasFocused(focused)]}
